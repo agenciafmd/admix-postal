@@ -1,0 +1,38 @@
+{
+  "name": "agenciafmd/admix-postal",
+  "description": "Postal - Agência F&MD",
+  "homepage": "https://github.com/agenciafmd/admix-postal",
+  "keywords": [
+    "laravel",
+    "agenciafmd",
+    "postal"
+  ],
+  "authors": [
+    {
+      "name": "Irineu Martins Junior",
+      "email": "irineu@fmd.ag",
+      "homepage": "https://fmd.ag/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "laravel/framework": "5.8.*"
+  },
+  "autoload": {
+    "files": [
+      "src/Http/helpers.php"
+    ],
+    "psr-4": {
+      "Agenciafmd\\Postal\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Agenciafmd\\Postal\\Providers\\PostalServiceProvider"
+      ],
+      "aliases": {
+      }
+    }
+  }
+}
