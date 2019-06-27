@@ -27,9 +27,9 @@
 
         {!! Form::bsText('Assunto', 'subject', null, ['required']) !!}
 
-        {!! Form::bsText('Cópia (Cc)', 'cc') !!}
+        {!! Form::bsText('Cópia (Cc)', 'cc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula') !!}
 
-        {!! Form::bsText('Cópia oculta (Cco)', 'bcc') !!}
+        {!! Form::bsText('Cópia oculta (Cco)', 'bcc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula') !!}
     </ul>
     <div class="card-footer bg-gray-lightest text-right">
         <div class="d-flex">

@@ -10,8 +10,6 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-#use Mixdinternet\Sortable\Traits\Sortable;
-
 class Postal extends Model implements AuditableContract
 {
     use SoftDeletes, Auditable, HasSlug, Notifiable;
@@ -29,9 +27,24 @@ class Postal extends Model implements AuditableContract
             ->saveSlugsTo('slug');
     }
 
+    public function setCcAttribute($value)
+    {
+        $this->attributes['cc'] = $this->normalizeCopies($value);
+    }
+
+    public function setBccAttribute($value)
+    {
+        $this->attributes['bcc'] = $this->normalizeCopies($value);
+    }
+
     public function scopeIsActive($query)
     {
         $query->where('is_active', 1)
             ->sort();
+    }
+
+    private function normalizeCopies($value)
+    {
+        return str_replace([' ', ','], ['', ','], $value);
     }
 }
