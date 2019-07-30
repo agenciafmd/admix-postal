@@ -1,9 +1,13 @@
 @can('view', '\Agenciafmd\Postal\Postal')
-    <li class="{{ admix_is_active(route('admix.postal.index')) ? 'active' : '' }}">
-        <a href="{{ route('admix.postal.index') }}"
-           class="{{ admix_is_active(route('admix.postal.index')) ? 'active' : '' }}">
-            <i class="fe fe-minus"></i>
-            Formulários
+    <li class="nav-item">
+        <a class="nav-link {{ admix_is_active(route('admix.postal.index')) ? 'active' : '' }}"
+           href="{{ route('admix.postal.index') }}">
+            <span class="nav-icon">
+                <i class="icon fe fe-minus"></i>
+            </span>
+            <span class="nav-text">
+                Formulários
+            </span>
         </a>
     </li>
 @endcan
