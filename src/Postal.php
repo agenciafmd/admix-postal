@@ -39,8 +39,7 @@ class Postal extends Model implements AuditableContract
 
     public function scopeIsActive($query)
     {
-        $query->where('is_active', 1)
-            ->sort();
+        $query->where('is_active', 1);
     }
 
     private function normalizeCopies($value)
