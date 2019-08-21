@@ -5,14 +5,13 @@ namespace Agenciafmd\Postal;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 
 class Postal extends Model implements AuditableContract
 {
-    use SoftDeletes, Auditable, HasSlug, Notifiable;
+    use SoftDeletes, Auditable, Notifiable;
 
     protected $table = 'postal';
 
@@ -20,11 +19,13 @@ class Postal extends Model implements AuditableContract
         //
     ];
 
-    public function getSlugOptions(): SlugOptions
+    protected static function boot()
     {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
+        parent::boot();
+
+        static::saving(function ($model) {
+            $model->slug = Str::slug($model->name);
+        });
     }
 
     public function setCcAttribute($value)

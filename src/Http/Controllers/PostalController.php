@@ -24,14 +24,6 @@ class PostalController extends Controller
             $query->onlyTrashed();
         }
 
-        //TODO: substituir por https://github.com/spatie/laravel-query-builder/pull/223
-//        if ($request->filled('query')) {
-//            $constraints = $query;
-//            $query = Postal::search($request->get('query'))
-//                ->constrain($constraints)
-//                ->orderBy(ltrim($request->get('sort', 'name'), '-'), (Str::startsWith($request->get('sort'), '-')) ? 'desc' : 'asc');
-//        }
-
         $view['items'] = $query->paginate($request->get('per_page', 50));
 
         return view('agenciafmd/postal::index', $view);
@@ -39,7 +31,7 @@ class PostalController extends Controller
 
     public function create(Postal $postal)
     {
-        $view['postal'] = $postal;
+        $view['model'] = $postal;
 
         return view('agenciafmd/postal::form', $view);
     }
@@ -57,14 +49,14 @@ class PostalController extends Controller
 
     public function show(Postal $postal)
     {
-        $view['postal'] = $postal;
+        $view['model'] = $postal;
 
         return view('agenciafmd/postal::form', $view);
     }
 
     public function edit(Postal $postal)
     {
-        $view['postal'] = $postal;
+        $view['model'] = $postal;
 
         return view('agenciafmd/postal::form', $view);
     }

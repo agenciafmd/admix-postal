@@ -1,22 +1,31 @@
 @extends('agenciafmd/admix::partials.crud.form')
 
-@section('title')
-    @if(request()->is('*/create'))
-        Criar
-    @elseif(request()->is('*/edit'))
-        Editar
-    @else
-        Visualizar
-    @endif
-    Formulário
-@endsection
-
 @section('form')
-    {!! Form::bsOpen(['model' => optional($postal), 'create' => route('admix.postal.store'), 'update' => route('admix.postal.update', ['postal' => $postal->id])]) !!}
+    {!! Form::bsOpen(['model' => optional($model), 'create' => route('admix.postal.store'), 'update' => route('admix.postal.update', ['postal' => $model->id])]) !!}
     <div class="card-header bg-gray-lightest">
-        <h3 class="card-title">Geral</h3>
+        <h3 class="card-title">
+            @if(request()->is('*/create'))
+                Criar
+            @elseif(request()->is('*/edit'))
+                Editar
+            @else
+                Visualizar
+            @endif
+            Formulários
+        </h3>
+        <div class="card-options">
+            @if(strpos(request()->route()->getName(), 'show') === false)
+                @include('agenciafmd/admix::partials.btn.save')
+            @endif
+        </div>
     </div>
     <ul class="list-group list-group-flush">
+        @if (optional($model)->id)
+            {!! Form::bsText('Código', 'id', null, ['disabled' => true]) !!}
+
+            {!! Form::bsText('Identificação', 'slug', null, ['disabled' => true]) !!}
+        @endif
+
         {!! Form::bsIsActive('Ativo', 'is_active', null, ['required']) !!}
 
         {!! Form::bsText('Nome', 'name', null, ['required']) !!}
