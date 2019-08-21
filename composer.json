@@ -16,7 +16,8 @@
     }
   ],
   "require": {
-    "laravel/framework": "5.8.*"
+    "laravel/framework": "5.8.*",
+    "msurguy/honeypot": "dev-master"
   },
   "autoload": {
     "files": [
@@ -32,6 +33,7 @@
         "Agenciafmd\\Postal\\Providers\\PostalServiceProvider"
       ],
       "aliases": {
+        "Honeypot": "Msurguy\\Honeypot\\HoneypotFacade"
       }
     }
   }
