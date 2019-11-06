@@ -1,6 +1,6 @@
 ## F&MD - Postal
 
-[![Downloads](https://img.shields.io/packagist/dt/agenciafmd/admix-postal.svg?style=flat-square)](https://packagist.org/packages/agenciafmd/admix-categories)
+[![Downloads](https://img.shields.io/packagist/dt/agenciafmd/admix-postal.svg?style=flat-square)](https://packagist.org/packages/agenciafmd/admix-postal)
 [![Licença](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
 - Disparos de formulários de forma simples
