@@ -1,7 +1,7 @@
 @extends('agenciafmd/admix::partials.crud.form')
 
 @section('form')
-    {!! Form::bsOpen(['model' => optional($model), 'create' => route('admix.postal.store'), 'update' => route('admix.postal.update', ['postal' => $model->id])]) !!}
+    @formModel(['model' => optional($model), 'create' => route('admix.postal.store'), 'update' => route('admix.postal.update', ['postal' => ($model->id) ?? 0]), 'id' => 'formCrud', 'class' => 'mb-0 card-list-group card' . ((count($errors) > 0) ? ' was-validated' : '')])
     <div class="card-header bg-gray-lightest">
         <h3 class="card-title">
             @if(request()->is('*/create'))
@@ -21,24 +21,24 @@
     </div>
     <ul class="list-group list-group-flush">
         @if (optional($model)->id)
-            {!! Form::bsText('Código', 'id', null, ['disabled' => true]) !!}
+            @formText(['Código', 'id', null, ['disabled' => true]])
 
-            {!! Form::bsText('Identificação', 'slug', null, ['disabled' => true]) !!}
+            @formText(['Identificação', 'slug', null, ['disabled' => true]])
         @endif
 
-        {!! Form::bsIsActive('Ativo', 'is_active', null, ['required']) !!}
+            @formIsActive(['Ativo', 'is_active', null, ['required']])
 
-        {!! Form::bsText('Nome', 'name', null, ['required']) !!}
+            @formText(['Nome', 'name', null, ['required']])
 
-        {!! Form::bsText('Para (nome)', 'to_name', null, ['required']) !!}
+            @formText(['Para (nome)', 'to_name', null, ['required']])
 
-        {!! Form::bsEmail('Para (email)', 'to', null, ['required']) !!}
+            @formEmail(['Para (email)', 'to', null, ['required']])
 
-        {!! Form::bsText('Assunto', 'subject', null, ['required']) !!}
+            @formText(['Assunto', 'subject', null, ['required']])
 
-        {!! Form::bsText('Cópia (Cc)', 'cc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula') !!}
+            @formText(['Cópia (CC)', 'cc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula'])
 
-        {!! Form::bsText('Cópia oculta (Cco)', 'bcc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula') !!}
+            @formText(['Cópia oculta (CCO)', 'bcc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula'])
     </ul>
     <div class="card-footer bg-gray-lightest text-right">
         <div class="d-flex">
@@ -49,5 +49,5 @@
             @endif
         </div>
     </div>
-    {!! Form::close() !!}
+    @formClose()
 @endsection
