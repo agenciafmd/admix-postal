@@ -17,7 +17,8 @@ class PostalController extends Controller
         session()->put('backUrl', request()->fullUrl());
 
         $query = QueryBuilder::for(Postal::class)
-            ->defaultSort('name')
+            ->defaultSort('-is_active', 'name')
+            ->allowedSorts($request->sort)
             ->allowedFilters((($request->filter) ? array_keys($request->get('filter')) : []));
 
         if ($request->is('*/trash')) {
