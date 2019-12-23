@@ -24,9 +24,13 @@
 
 @section('batch')
     @if(request()->is('*/trash'))
-        @inputSelect(['batch', ['' => 'com os selecionados', route('admix.postal.batchRestore') => '- restaurar'], null, ['class' => 'js-batch-select form-control custom-select']])
+        @can('restore', '\Agenciafmd\Postal\Postal')
+            @inputSelect(['batch', ['' => 'com os selecionados', route('admix.postal.batchRestore') => '- restaurar'], null, ['class' => 'js-batch-select form-control custom-select']])
+        @endcan
     @else
-        @inputSelect(['batch', ['' => 'com os selecionados', route('admix.postal.batchDestroy') => '- remover'], null, ['class' => 'js-batch-select form-control custom-select']])
+        @can('delete', '\Agenciafmd\Postal\Postal')
+            @inputSelect(['batch', ['' => 'com os selecionados', route('admix.postal.batchDestroy') => '- remover'], null, ['class' => 'js-batch-select form-control custom-select']])
+        @endcan
     @endif
 @endsection
 
