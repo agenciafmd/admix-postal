@@ -12,7 +12,7 @@
 @endsection
 
 @section('form')
-    {!! Form::bsOpen(['model' => optional($postal), 'create' => route('admix.postal.store'), 'update' => route('admix.postal.update', ['postal' => $postal->id])]) !!}
+    {!! Form::bsOpen(['model' => optional($model), 'create' => route('admix.postal.store'), 'update' => route('admix.postal.update', ['postal' => optional($model)->id])]) !!}
     <div class="card-header bg-gray-lightest">
         <h3 class="card-title">Geral</h3>
     </div>
