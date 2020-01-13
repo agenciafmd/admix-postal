@@ -1,44 +1,35 @@
 @extends('agenciafmd/admix::partials.crud.form')
 
+@section('title')
+    @if(request()->is('*/create'))
+        Criar
+    @elseif(request()->is('*/edit'))
+        Editar
+    @else
+        Visualizar
+    @endif
+    Formulário
+@endsection
+
 @section('form')
-    @formModel(['model' => optional($model), 'create' => route('admix.postal.store'), 'update' => route('admix.postal.update', ['postal' => ($model->id) ?? 0]), 'id' => 'formCrud', 'class' => 'mb-0 card-list-group card' . ((count($errors) > 0) ? ' was-validated' : '')])
+    {!! Form::bsOpen(['model' => optional($postal), 'create' => route('admix.postal.store'), 'update' => route('admix.postal.update', ['postal' => $postal->id])]) !!}
     <div class="card-header bg-gray-lightest">
-        <h3 class="card-title">
-            @if(request()->is('*/create'))
-                Criar
-            @elseif(request()->is('*/edit'))
-                Editar
-            @else
-                Visualizar
-            @endif
-            Formulários
-        </h3>
-        <div class="card-options">
-            @if(strpos(request()->route()->getName(), 'show') === false)
-                @include('agenciafmd/admix::partials.btn.save')
-            @endif
-        </div>
+        <h3 class="card-title">Geral</h3>
     </div>
     <ul class="list-group list-group-flush">
-        @if (optional($model)->id)
-            @formText(['Código', 'id', null, ['disabled' => true]])
+        {!! Form::bsIsActive('Ativo', 'is_active', null, ['required']) !!}
 
-            @formText(['Identificação', 'slug', null, ['disabled' => true]])
-        @endif
+        {!! Form::bsText('Nome', 'name', null, ['required']) !!}
 
-            @formIsActive(['Ativo', 'is_active', null, ['required']])
+        {!! Form::bsText('Para (nome)', 'to_name', null, ['required']) !!}
 
-            @formText(['Nome', 'name', null, ['required']])
+        {!! Form::bsEmail('Para (email)', 'to', null, ['required']) !!}
 
-            @formText(['Para (nome)', 'to_name', null, ['required']])
+        {!! Form::bsText('Assunto', 'subject', null, ['required']) !!}
 
-            @formEmail(['Para (email)', 'to', null, ['required']])
+        {!! Form::bsText('Cópia (Cc)', 'cc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula') !!}
 
-            @formText(['Assunto', 'subject', null, ['required']])
-
-            @formText(['Cópia (CC)', 'cc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula'])
-
-            @formText(['Cópia oculta (CCO)', 'bcc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula'])
+        {!! Form::bsText('Cópia oculta (Cco)', 'bcc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula') !!}
     </ul>
     <div class="card-footer bg-gray-lightest text-right">
         <div class="d-flex">
@@ -49,5 +40,5 @@
             @endif
         </div>
     </div>
-    @formClose()
+    {!! Form::close() !!}
 @endsection
