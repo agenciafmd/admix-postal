@@ -147,7 +147,7 @@ Crie o arquivo `/packages/agenciafmd/frontend/src/resources/views/pages/contact.
 
 <label for="name"
        class="sr-only">Nome</label>
-{!! Form::text('name', null, [
+{{ Form::text('name', null, [
     'class' => 'form-control ' . ($errors->contacts->has('name') ? ' is-invalid' : ''),
     'id' => 'name',
     'placeholder' => 'Nome',
