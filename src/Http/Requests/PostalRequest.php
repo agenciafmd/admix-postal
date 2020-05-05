@@ -12,16 +12,16 @@ class PostalRequest extends FormRequest
     public function rules()
     {
         return [
-            'is_active' => 'required|boolean',
-            'name' => 'required|max:150',
-            'to_name' => 'required|max:150',
-            'to' => 'required|email',
-            'subject' => 'required|max:150',
+            'is_active' => ['required', 'boolean'],
+            'name' => ['required', 'max:150'],
+            'to_name' => ['required', 'max:150'],
+            'to' => ['required', 'email'],
+            'subject' => ['required', 'max:150'],
             'cc' => function ($attribute, $value, $fail) {
                 $emails = explode(',', $value);
 
                 foreach ($emails as $email) {
-                    $validation = Validator::make(['email' => $email], ['email' => 'nullable|email']);
+                    $validation = Validator::make(['email' => $email], ['email' => ['nullable', 'email']]);
 
                     if ($validation->fails()) {
                         $fail('O(s) email(s) em cópia não está(ão) em um formato válido');
@@ -32,7 +32,7 @@ class PostalRequest extends FormRequest
                 $emails = explode(',', $value);
 
                 foreach ($emails as $email) {
-                    $validation = Validator::make(['email' => $email], ['email' => 'nullable|email']);
+                    $validation = Validator::make(['email' => $email], ['email' => ['nullable', 'email']]);
 
                     if ($validation->fails()) {
                         $fail('O(s) email(s) em cópia oculta não está(ão) em um formato válido');
