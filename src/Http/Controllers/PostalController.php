@@ -39,7 +39,7 @@ class PostalController extends Controller
 
     public function store(PostalRequest $request)
     {
-        if (Postal::create($request->all())) {
+        if (Postal::create($request->validated())) {
             flash('Item inserido com sucesso.', 'success');
         } else {
             flash('Falha no cadastro.', 'danger');
@@ -64,7 +64,7 @@ class PostalController extends Controller
 
     public function update(Postal $postal, PostalRequest $request)
     {
-        if ($postal->update($request->all())) {
+        if ($postal->update($request->validated())) {
             flash('Item atualizado com sucesso.', 'success');
         } else {
             flash('Falha na atualização.', 'danger');
