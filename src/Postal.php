@@ -8,8 +8,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Postal extends Model implements AuditableContract
+class Postal extends Model implements AuditableContract, Searchable
 {
     use SoftDeletes, Auditable, Notifiable;
 
@@ -18,6 +20,17 @@ class Postal extends Model implements AuditableContract
     protected $guarded = [
         //
     ];
+
+    public $searchableType = "Formulários";
+
+    public function getSearchResult(): SearchResult
+    {
+        return new SearchResult(
+            $this,
+            "{$this->name} ({$this->to})",
+            route('admix.postal.edit', $this->id)
+        );
+    }
 
     protected static function boot()
     {

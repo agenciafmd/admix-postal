@@ -2,6 +2,7 @@
 
 namespace Agenciafmd\Postal\Providers;
 
+use Agenciafmd\Postal\Postal;
 use Illuminate\Support\ServiceProvider;
 
 class PostalServiceProvider extends ServiceProvider
@@ -9,6 +10,8 @@ class PostalServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->providers();
+
+        $this->setSearch();
 
         $this->loadViews();
 
@@ -24,6 +27,12 @@ class PostalServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(CommandServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
+    }
+
+    protected function setSearch()
+    {
+        $this->app->make('admix-search')
+            ->registerModel(Postal::class, 'name');
     }
 
     protected function loadViews()
