@@ -12,11 +12,26 @@ class PostalRequest extends FormRequest
     public function rules()
     {
         return [
-            'is_active' => ['required', 'boolean'],
-            'name' => ['required', 'max:150'],
-            'to_name' => ['required', 'max:150'],
-            'to' => ['required', 'email'],
-            'subject' => ['required', 'max:150'],
+            'is_active' => [
+                'required',
+                'boolean',
+            ],
+            'name' => [
+                'required',
+                'max:150',
+            ],
+            'to_name' => [
+                'required',
+                'max:150',
+            ],
+            'to' => [
+                'required',
+                'email',
+            ],
+            'subject' => [
+                'required',
+                'max:150',
+            ],
             'cc' => function ($attribute, $value, $fail) {
                 $emails = explode(',', $value);
 

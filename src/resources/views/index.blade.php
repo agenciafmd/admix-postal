@@ -25,16 +25,19 @@
 @section('batch')
     @if(request()->is('*/trash'))
         @can('restore', '\Agenciafmd\Postal\Postal')
-          {{ Form::select('batch', ['' => 'com os selecionados', route('admix.postal.batchRestore') => '- restaurar'], null, ['class' => 'js-batch-select form-control custom-select']) }}
+            <x-admix::batchs.select name="batch" selected=""
+                                    :options="['' => 'com os selecionados', route('admix.postal.batchRestore') => '- restaurar']"/>
         @endcan
     @else
-      @can('delete', '\Agenciafmd\Postal\Postal')
-        {{ Form::select('batch', ['' => 'com os selecionados', route('admix.postal.batchDestroy') => '- remover'], null, ['class' => 'js-batch-select form-control custom-select']) }}
-      @endcan
+        @can('delete', '\Agenciafmd\Postal\Postal')
+            <x-admix::batchs.select name="batch" selected=""
+                                    :options="['' => 'com os selecionados', route('admix.postal.batchDestroy') => '- remover']"/>
+        @endcan
     @endif
 @endsection
 
 @section('filters')
+    <x-admix::filters.input label="email" name="to"/>
 @endsection
 
 @section('table')
@@ -46,6 +49,7 @@
                     <th class="w-1 d-none d-md-table-cell">&nbsp;</th>
                     <th class="w-1">{!! column_sort('#', 'id') !!}</th>
                     <th>{!! column_sort('Nome', 'name') !!}</th>
+                    <th>{!! column_sort('Email', 'to') !!}</th>
                     <th>{!! column_sort('Status', 'is_active') !!}</th>
                     <th></th>
                 </tr>
@@ -62,8 +66,9 @@
                         </td>
                         <td><span class="text-muted">{{ $item->id }}</span></td>
                         <td>{{ $item->name }}</td>
+                        <td>{{ $item->to }}</td>
                         <td>
-                            @include('agenciafmd/admix::partials.label.status', ['status' => $item->is_active])
+                            @livewire('admix::is-active', ['myModel' => get_class($item), 'myId' => $item->id])
                         </td>
                         @if(request()->is('*/trash'))
                             <td class="w-1 text-right">
@@ -76,7 +81,6 @@
                                         <i class="icon fe-more-vertical text-muted"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        @include('agenciafmd/admix::partials.btn.show', ['url' => route('admix.postal.show', $item->id)])
                                         @can('edit', '\Agenciafmd\Postal\Postal')
                                             @include('agenciafmd/admix::partials.btn.edit', ['url' => route('admix.postal.edit', $item->id)])
                                         @endcan

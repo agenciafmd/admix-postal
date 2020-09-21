@@ -21,6 +21,19 @@ class Postal extends Model implements AuditableContract, Searchable
         //
     ];
 
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            $model->slug = Str::slug($model->name);
+        });
+    }
+
     public $searchableType = "Formulários";
 
     public function getSearchResult(): SearchResult
@@ -30,15 +43,6 @@ class Postal extends Model implements AuditableContract, Searchable
             "{$this->name} ({$this->to})",
             route('admix.postal.edit', $this->id)
         );
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::saving(function ($model) {
-            $model->slug = Str::slug($model->name);
-        });
     }
 
     public function setCcAttribute($value)

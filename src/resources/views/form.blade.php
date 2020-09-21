@@ -1,44 +1,43 @@
 @extends('agenciafmd/admix::partials.crud.form')
 
-@section('title')
-    @if(request()->is('*/create'))
-        Criar
-    @elseif(request()->is('*/edit'))
-        Editar
-    @else
-        Visualizar
-    @endif
-    Formulário
-@endsection
-
 @section('form')
-    {{ Form::bsOpen(['model' => optional($model), 'create' => route('admix.postal.store'), 'update' => route('admix.postal.update', ['postal' => ($model->id) ?? 0])]) }}
-    <div class="card-header bg-gray-lightest">
-        <h3 class="card-title">Geral</h3>
-    </div>
-    <ul class="list-group list-group-flush">
-        {{ Form::bsIsActive('Ativo', 'is_active', null, ['required']) }}
+    <x-admix::cards.form title="Formulário"
+                         :create="route('admix.postal.store')"
+                         :update="route('admix.postal.update', ['postal' => ($model->id) ?? 0])">
+        <x-admix::forms.list-group>
+            <x-admix::forms.group label="ativo" for="is_active">
+                <x-admix::forms.boolean name="is_active" required="required" :selected="$model->is_active ?? ''"/>
+            </x-admix::forms.group>
 
-        {{ Form::bsText('Nome', 'name', null, ['required']) }}
+            <x-admix::forms.group label="nome" for="name">
+                <x-admix::forms.input name="name" required="required" :value="$model->name ?? ''"/>
+            </x-admix::forms.group>
 
-        {{ Form::bsText('Para (nome)', 'to_name', null, ['required']) }}
+            <x-admix::forms.group label="para (nome)" for="to_name">
+                <x-admix::forms.input name="to_name" required="required" :value="$model->to_name ?? ''"/>
+            </x-admix::forms.group>
 
-        {{ Form::bsEmail('Para (email)', 'to', null, ['required']) }}
+            <x-admix::forms.group label="para (email)" for="to">
+                <x-admix::forms.email name="to" required="required" :value="$model->to ?? ''"/>
+            </x-admix::forms.group>
 
-        {{ Form::bsText('Assunto', 'subject', null, ['required']) }}
+            <x-admix::forms.group label="assunto" for="subject">
+                <x-admix::forms.input name="subject" required="required" :value="$model->subject ?? ''"/>
+            </x-admix::forms.group>
 
-        {{ Form::bsText('Cópia (Cc)', 'cc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula') }}
+            <x-admix::forms.group label="cópia (cc)" for="cc">
+                <x-admix::forms.input name="cc" :value="$model->cc ?? ''"/>
+                <x-slot name="help">
+                    Para mais de 1 e-mail, separe-os por vírgula
+                </x-slot>
+            </x-admix::forms.group>
 
-        {{ Form::bsText('Cópia oculta (Cco)', 'bcc', null, [], 'Para mais de 1 e-mail, separe-os por vírgula') }}
-    </ul>
-    <div class="card-footer bg-gray-lightest text-right">
-        <div class="d-flex">
-            @include('agenciafmd/admix::partials.btn.back')
-
-            @if(strpos(request()->route()->getName(), 'show') === false)
-                @include('agenciafmd/admix::partials.btn.save')
-            @endif
-        </div>
-    </div>
-    {{ Form::close() }}
+            <x-admix::forms.group label="cópia oculta (cco)" for="cco">
+                <x-admix::forms.input name="cco" :value="$model->cco ?? ''"/>
+                <x-slot name="help">
+                    Para mais de 1 e-mail, separe-os por vírgula
+                </x-slot>
+            </x-admix::forms.group>
+        </x-admix::forms.list-group>
+    </x-admix::cards.form>
 @endsection

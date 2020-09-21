@@ -1,53 +1,44 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| POSTAL Routes
-|--------------------------------------------------------------------------
-*/
+use Agenciafmd\Postal\Http\Controllers\PostalController;
 
-Route::prefix(config('admix.url') . '/postal')
-    ->name('admix.postal.')
-    ->middleware(['auth:admix-web'])
-    ->group(function () {
-        Route::get('', 'PostalController@index')
-            ->name('index')
-            ->middleware('can:view,\Agenciafmd\Postal\Postal');
-        Route::get('trash', 'PostalController@index')
-            ->name('trash')
-            ->middleware('can:restore,\Agenciafmd\Postal\Postal');
-        Route::get('create', 'PostalController@create')
-            ->name('create')
-            ->middleware('can:create,\Agenciafmd\Postal\Postal');
-        Route::post('', 'PostalController@store')
-            ->name('store')
-            ->middleware('can:create,\Agenciafmd\Postal\Postal');
-        Route::get('{postal}', 'PostalController@show')
-            ->name('show')
-            ->middleware('can:view,\Agenciafmd\Postal\Postal');
-        Route::get('{postal}/edit', 'PostalController@edit')
-            ->name('edit')
-            ->middleware('can:update,\Agenciafmd\Postal\Postal');
-        Route::put('{postal}', 'PostalController@update')
-            ->name('update')
-            ->middleware('can:update,\Agenciafmd\Postal\Postal');
-        Route::delete('destroy/{postal}', 'PostalController@destroy')
-            ->name('destroy')
-            ->middleware('can:delete,\Agenciafmd\Postal\Postal');
-        Route::post('{id}/restore', 'PostalController@restore')
-            ->name('restore')
-            ->middleware('can:restore,\Agenciafmd\Postal\Postal');
-        Route::post('batchDestroy', 'PostalController@batchDestroy')
-            ->name('batchDestroy')
-            ->middleware('can:delete,\Agenciafmd\Postal\Postal');
-        Route::post('batchRestore', 'PostalController@batchRestore')
-            ->name('batchRestore')
-            ->middleware('can:restore,\Agenciafmd\Postal\Postal');
-        Route::post('{postal}/send', 'PostalController@send')
-            ->name('send')
-            ->middleware('can:update,\Agenciafmd\Postal\Postal');
-    });
+Route::get('postal', [PostalController::class, 'index'])
+    ->name('admix.postal.index')
+    ->middleware('can:view,\Agenciafmd\Postal\Postal');
+Route::get('postal/trash', [PostalController::class, 'index'])
+    ->name('admix.postal.trash')
+    ->middleware('can:restore,\Agenciafmd\Postal\Postal');
+Route::get('postal/create', [PostalController::class, 'create'])
+    ->name('admix.postal.create')
+    ->middleware('can:create,\Agenciafmd\Postal\Postal');
+Route::post('postal', [PostalController::class, 'store'])
+    ->name('admix.postal.store')
+    ->middleware('can:create,\Agenciafmd\Postal\Postal');
+Route::get('postal/{postal}', [PostalController::class, 'show'])
+    ->name('admix.postal.show')
+    ->middleware('can:view,\Agenciafmd\Postal\Postal');
+Route::get('postal/{postal}/edit', [PostalController::class, 'edit'])
+    ->name('admix.postal.edit')
+    ->middleware('can:update,\Agenciafmd\Postal\Postal');
+Route::put('postal/{postal}', [PostalController::class, 'update'])
+    ->name('admix.postal.update')
+    ->middleware('can:update,\Agenciafmd\Postal\Postal');
+Route::delete('postal/destroy/{postal}', [PostalController::class, 'destroy'])
+    ->name('admix.postal.destroy')
+    ->middleware('can:delete,\Agenciafmd\Postal\Postal');
+Route::post('postal/{id}/restore', [PostalController::class, 'restore'])
+    ->name('admix.postal.restore')
+    ->middleware('can:restore,\Agenciafmd\Postal\Postal');
+Route::post('postal/batchDestroy', [PostalController::class, 'batchDestroy'])
+    ->name('admix.postal.batchDestroy')
+    ->middleware('can:delete,\Agenciafmd\Postal\Postal');
+Route::post('postal/batchRestore', [PostalController::class, 'batchRestore'])
+    ->name('admix.postal.batchRestore')
+    ->middleware('can:restore,\Agenciafmd\Postal\Postal');
+Route::post('postal/{postal}/send', [PostalController::class, 'send'])
+    ->name('admix.postal.send')
+    ->middleware('can:update,\Agenciafmd\Postal\Postal');
 
-//Route::name('frontend.postal.')->group(function () {
-//    Route::post('postal/{postal}/enviar', 'PostalFrontendController@send')->name('send');
-//});
+//Route::post('postal/{postal}/enviar', 'PostalFrontendController@send')
+//    ->name('frontend.postal.send')
+//    ->withoutMiddleware(['auth:admix-web']);

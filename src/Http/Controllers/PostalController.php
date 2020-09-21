@@ -8,6 +8,7 @@ use Agenciafmd\Postal\Postal;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PostalController extends Controller
@@ -19,7 +20,10 @@ class PostalController extends Controller
         $query = QueryBuilder::for(Postal::class)
             ->defaultSort('-is_active', 'name')
             ->allowedSorts($request->sort)
-            ->allowedFilters((($request->filter) ? array_keys($request->get('filter')) : []));
+            ->allowedFilters(array_merge((($request->filter) ? array_keys(array_diff_key($request->filter, array_flip(['id', 'is_active']))) : []), [
+                AllowedFilter::exact('id'),
+                AllowedFilter::exact('is_active'),
+            ]));
 
         if ($request->is('*/trash')) {
             $query->onlyTrashed();

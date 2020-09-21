@@ -2,12 +2,14 @@
 
 namespace Agenciafmd\Postal\Providers;
 
+use Agenciafmd\Postal\Policies\PostalPolicy;
+use Agenciafmd\Postal\Postal;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        '\Agenciafmd\Postal\Postal' => '\Agenciafmd\Postal\Policies\PostalPolicy',
+        Postal::class => PostalPolicy::class,
     ];
 
     public function boot()

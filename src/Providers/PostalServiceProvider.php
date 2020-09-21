@@ -13,36 +13,28 @@ class PostalServiceProvider extends ServiceProvider
 
         $this->setSearch();
 
-        $this->loadViews();
-
-        $this->loadTranslations();
-
         $this->loadMigrations();
 
         $this->publish();
     }
 
+    public function register()
+    {
+        $this->loadConfigs();
+    }
+
     protected function providers()
     {
-        $this->app->register(RouteServiceProvider::class);
-        $this->app->register(CommandServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
+        $this->app->register(BladeServiceProvider::class);
+        $this->app->register(CommandServiceProvider::class);
+        $this->app->register(RouteServiceProvider::class);
     }
 
     protected function setSearch()
     {
         $this->app->make('admix-search')
             ->registerModel(Postal::class, 'name');
-    }
-
-    protected function loadViews()
-    {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'agenciafmd/postal');
-    }
-
-    protected function loadTranslations()
-    {
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'agenciafmd/postal');
     }
 
     protected function loadMigrations()
@@ -54,16 +46,7 @@ class PostalServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config' => base_path('config'),
-        ], 'config');
-
-        $this->publishes([
-            __DIR__ . '/../resources/views' => base_path('resources/views/vendor/mixdinternet/postal'),
-        ], 'views');
-    }
-
-    public function register()
-    {
-        $this->loadConfigs();
+        ], 'admix-postal:config');
     }
 
     protected function loadConfigs()
