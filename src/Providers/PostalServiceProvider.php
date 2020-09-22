@@ -2,7 +2,7 @@
 
 namespace Agenciafmd\Postal\Providers;
 
-use Agenciafmd\Postal\Postal;
+use Agenciafmd\Postal\Models\Postal;
 use Illuminate\Support\ServiceProvider;
 
 class PostalServiceProvider extends ServiceProvider

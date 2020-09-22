@@ -1,4 +1,4 @@
-@can('view', '\Agenciafmd\Postal\Postal')
+@can('view', '\Agenciafmd\Postal\Models\Postal')
     <li class="nav-item">
         <a class="nav-link {{ admix_is_active(route('admix.postal.index')) ? 'active' : '' }}"
            href="{{ route('admix.postal.index') }}">

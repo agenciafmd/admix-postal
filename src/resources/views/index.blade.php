@@ -13,10 +13,10 @@
     @if(request()->is('*/trash'))
         @include('agenciafmd/admix::partials.btn.back', ['url' => route('admix.postal.index')])
     @else
-        @can('create', '\Agenciafmd\Postal\Postal')
+        @can('create', \Agenciafmd\Postal\Models\Postal::class)
             @include('agenciafmd/admix::partials.btn.create', ['url' => route('admix.postal.create'), 'label' => 'Formulário'])
         @endcan
-        @can('restore', '\Agenciafmd\Postal\Postal')
+        @can('restore', \Agenciafmd\Postal\Models\Postal::class)
             @include('agenciafmd/admix::partials.btn.trash', ['url' => route('admix.postal.trash')])
         @endcan
     @endif
@@ -24,12 +24,12 @@
 
 @section('batch')
     @if(request()->is('*/trash'))
-        @can('restore', '\Agenciafmd\Postal\Postal')
+        @can('restore', \Agenciafmd\Postal\Models\Postal::class)
             <x-admix::batchs.select name="batch" selected=""
                                     :options="['' => 'com os selecionados', route('admix.postal.batchRestore') => '- restaurar']"/>
         @endcan
     @else
-        @can('delete', '\Agenciafmd\Postal\Postal')
+        @can('delete', \Agenciafmd\Postal\Models\Postal::class)
             <x-admix::batchs.select name="batch" selected=""
                                     :options="['' => 'com os selecionados', route('admix.postal.batchDestroy') => '- remover']"/>
         @endcan
@@ -81,13 +81,11 @@
                                         <i class="icon fe-more-vertical text-muted"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        @can('edit', '\Agenciafmd\Postal\Postal')
+                                        @can('update', \Agenciafmd\Postal\Models\Postal::class)
                                             @include('agenciafmd/admix::partials.btn.edit', ['url' => route('admix.postal.edit', $item->id)])
-                                        @endcan
-                                        @can('update', '\Agenciafmd\Postal\Postal')
                                             @include('agenciafmd/postal::partials.btn.send', ['url' => route('admix.postal.send', $item->id)])
                                         @endcan
-                                        @can('delete', '\Agenciafmd\Postal\Postal')
+                                        @can('delete', \Agenciafmd\Postal\Models\Postal::class)
                                             @include('agenciafmd/admix::partials.btn.remove', ['url' => route('admix.postal.destroy', $item->id)])
                                         @endcan
                                     </div>

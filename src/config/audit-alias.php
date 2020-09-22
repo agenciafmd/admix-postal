@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'Agenciafmd\Postal\Postal' => 'Configurações » Formulários',
+    'Agenciafmd\Postal\Models\Postal' => 'Configurações » Formulários',
 ];

@@ -4,7 +4,7 @@ namespace Agenciafmd\Postal\Http\Controllers;
 
 use Agenciafmd\Postal\Http\Requests\PostalRequest;
 use Agenciafmd\Postal\Notifications\SendNotification;
-use Agenciafmd\Postal\Postal;
+use Agenciafmd\Postal\Models\Postal;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
