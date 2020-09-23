@@ -128,7 +128,7 @@ class ContactsController extends Controller
 }
 ```
 
-## Formulário
+## Formulário (deprecated)
 
 Crie o arquivo `/packages/agenciafmd/frontend/src/resources/views/pages/contact.blade.php`
 
