@@ -62,6 +62,10 @@ class Postal extends Model implements AuditableContract, Searchable
 
     private function normalizeCopies($value)
     {
+        if(!$value) {
+            return null;
+        }
+        
         return str_replace([' ', ','], ['', ','], $value);
     }
 }
