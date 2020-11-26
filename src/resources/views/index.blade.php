@@ -25,19 +25,22 @@
 @section('batch')
     @if(request()->is('*/trash'))
         @can('restore', \Agenciafmd\Postal\Models\Postal::class)
-            <x-admix::batchs.select name="batch" selected=""
-                                    :options="['' => 'com os selecionados', route('admix.postal.batchRestore') => '- restaurar']"/>
+            {{ Form::select('batch', ['' => 'com os selecionados', route('admix.postal.batchRestore') => '- restaurar'], null, ['class' => 'js-batch-select form-control custom-select']) }}
         @endcan
     @else
         @can('delete', \Agenciafmd\Postal\Models\Postal::class)
-            <x-admix::batchs.select name="batch" selected=""
-                                    :options="['' => 'com os selecionados', route('admix.postal.batchDestroy') => '- remover']"/>
+            {{ Form::select('batch', ['' => 'com os selecionados', route('admix.postal.batchDestroy') => '- remover'], null, ['class' => 'js-batch-select form-control custom-select']) }}
         @endcan
     @endif
 @endsection
 
 @section('filters')
-    <x-admix::filters.input label="email" name="to"/>
+    <h6 class="dropdown-header bg-gray-lightest p-2">Email</h6>
+    <div class="p-2">
+        {{ Form::text('filter[to]', filter('to'), [
+                'class' => 'form-control form-control-sm'
+            ]) }}
+    </div>
 @endsection
 
 @section('table')
@@ -50,7 +53,7 @@
                     <th class="w-1">{!! column_sort('#', 'id') !!}</th>
                     <th>{!! column_sort('Nome', 'name') !!}</th>
                     <th>{!! column_sort('Email', 'to') !!}</th>
-                    <th class="px-0">{!! column_sort('Ativo', 'is_active') !!}</th>
+                    <th class="w-1">{!! column_sort('Ativo', 'is_active') !!}</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -67,7 +70,7 @@
                         <td><span class="text-muted">{{ $item->id }}</span></td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->to }}</td>
-                        <td class="px-0">
+                        <td>
                             @livewire('admix::is-active', ['myModel' => get_class($item), 'myId' => $item->id])
                         </td>
                         @if(request()->is('*/trash'))

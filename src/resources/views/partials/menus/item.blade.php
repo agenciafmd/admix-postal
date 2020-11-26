@@ -1,6 +1,6 @@
-@can('view', '\Agenciafmd\Postal\Models\Postal')
+@can('view', \Agenciafmd\Postal\Models\Postal::class)
     <li class="nav-item">
-        <a class="nav-link {{ admix_is_active(route('admix.postal.index')) ? 'active' : '' }}"
+        <a class="nav-link {{ (Str::startsWith(request()->route()->getName(), 'admix.postal')) ? 'active' : '' }}"
            href="{{ route('admix.postal.index') }}">
             <span class="nav-icon">
                 <i class="icon fe-minus"></i>
