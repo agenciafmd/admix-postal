@@ -2,12 +2,13 @@
 
 namespace Agenciafmd\Postal\Notifications;
 
+use Agenciafmd\Leads\Channels\LeadChannel;
 use Agenciafmd\Postal\Mails\SendMail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Channels\MailChannel;
 use Illuminate\Notifications\Notification;
-
-//use Mixdinternet\Admix\Notifications\Channels\DashboardChannel;
+use Agenciafmd\Leads\Models\Lead;
 
 class SendNotification extends Notification implements ShouldQueue
 {
@@ -36,7 +37,10 @@ class SendNotification extends Notification implements ShouldQueue
 
     public function via($notifiable)
     {
-        return ['mail'/*, DashboardChannel::class*/];
+        return [
+            MailChannel::class,
+            LeadChannel::class,
+        ];
     }
 
     public function toMail($notifiable)
@@ -44,21 +48,14 @@ class SendNotification extends Notification implements ShouldQueue
         return new SendMail($notifiable, $this->from, $this->data, $this->attach, $this->subject);
     }
 
-//    public function toDashboard($notifiable)
-//    {
-//        if (!$this->from) {
-//            $email = config('mail.from.address');
-//            $name = config('mail.from.name');
-//        } else {
-//            $email = key($this->from);
-//            $name = current($this->from);
-//        }
-//
-//        return [
-//            'name' => "<strong>{$name}</strong> enviou um email para <strong>{$notifiable->to}</strong>",
-//            'description' => '',
-//            'image' => 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($email))),
-//            'icon' => 'fa fa-envelope-o',
-//        ];
-//    }
+    public function toLead($data)
+    {
+        Lead::create([
+            'source' => 'contato',
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'description' => $data['message'],
+        ]);
+    }
 }
