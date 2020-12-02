@@ -1,9 +1,11 @@
 ## F&MD - Postal
 
+![Área Administrativa](https://github.com/agenciafmd/admix-postal/raw/master/docs/screenshot.png "Área Administrativa")
+
 [![Downloads](https://img.shields.io/packagist/dt/agenciafmd/admix-postal.svg?style=flat-square)](https://packagist.org/packages/agenciafmd/admix-postal)
 [![Licença](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
-- Disparos de formulários de forma simples
+- Disparos de formulários de forma simples e configurável pelo admix
 
 ## Instalação
 
@@ -17,9 +19,17 @@ Execute a migração
 php artisan migrate
 ```
 
+Se precisar do seed, faça a publicação
+
+```
+php artisan vendor:publish --tag=admix-postal:seeds
+```
+
+**não esqueça do `composer dumpautoload`**
+
 ## Request
 
-Crie o arquivo `/packages/agenciafmd/frontend/src/Http/Requests/ContactsRequest.php`
+Crie o arquivo `/packages/agenciafmd/frontend/src/Http/Requests/ContactRequest.php`
 
 ```php
 <?php
@@ -28,9 +38,9 @@ namespace Agenciafmd\Frontend\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContactsRequest extends FormRequest
+class ContactRequest extends FormRequest
 {
-    protected $errorBag = 'contacts';
+    protected $errorBag = 'contact';
 
     public function rules()
     {
@@ -69,20 +79,20 @@ class ContactsRequest extends FormRequest
 
 ## Controller
 
-Crie o arquivo `/packages/agenciafmd/frontend/src/Http/Controllers/ContactsController.php`
+Crie o arquivo `/packages/agenciafmd/frontend/src/Http/Controllers/ContactController.php`
 
 ```php
 <?php
 
 namespace Agenciafmd\Frontend\Http\Controllers;
 
-use Agenciafmd\Frontend\Http\Requests\ContactsRequest;
+use Agenciafmd\Frontend\Http\Requests\ContactRequest;
 use Agenciafmd\Postal\Notifications\SendNotification;
 use Agenciafmd\Postal\Postal;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
-class ContactsController extends Controller
+class ContactController extends Controller
 {
     public function index()
     {
@@ -91,7 +101,7 @@ class ContactsController extends Controller
         return view('agenciafmd/frontend::pages.contact', $view);
     }
 
-    public function send(ContactsRequest $request)
+    public function send(ContactRequest $request)
     {
 
         // se houver anexos
@@ -128,7 +138,7 @@ class ContactsController extends Controller
 }
 ```
 
-## Formulário (deprecated)
+## Formulário
 
 Crie o arquivo `/packages/agenciafmd/frontend/src/resources/views/pages/contact.blade.php`
 
@@ -136,7 +146,7 @@ Crie o arquivo `/packages/agenciafmd/frontend/src/resources/views/pages/contact.
 {{ Form::open([
     'route' => 'frontend.contacts.send',
     'id' => 'form-contact',
-    'class' => 'form needs-validation' . ((count($errors->contacts) > 0) ? ' was-validated' : ''),
+    'class' => 'form needs-validation' . ((count($errors->contact) > 0) ? ' was-validated' : ''),
     'autocomplete' => 'off',
     'novalidate' => true
 ]) }}
@@ -148,15 +158,15 @@ Crie o arquivo `/packages/agenciafmd/frontend/src/resources/views/pages/contact.
 <label for="name"
        class="sr-only">Nome</label>
 {{ Form::text('name', null, [
-    'class' => 'form-control ' . ($errors->contacts->has('name') ? ' is-invalid' : ''),
+    'class' => 'form-control ' . ($errors->contact->has('name') ? ' is-invalid' : ''),
     'id' => 'name',
     'placeholder' => 'Nome',
     'required' => true,
     ]) !!}
 <div class="invalid-feedback">
     <span>
-        @if($errors->contacts->has('name'))
-            {{ $errors->contacts->first('name') }}
+        @if($errors->contact->has('name'))
+            {{ $errors->contact->first('name') }}
         @else
             O campo nome é obrigatório
         @endif
@@ -173,6 +183,8 @@ Crie o arquivo `/packages/agenciafmd/frontend/src/resources/views/pages/contact.
 Crie o arquivo `/packages/agenciafmd/frontend/src/routes/web.php`
 
 ```php
-Route::get('/fale-conosco', 'ContactsController@index')->name('frontend.contacts.index');
-Route::post('/fale-conosco', 'ContactsController@send')->name('frontend.contacts.send');
+Route::get('/fale-conosco', [ContactController::class, 'index'])
+    ->name('frontend.contacts.index');
+Route::post('/fale-conosco', [ContactController::class, 'send'])
+    ->name('frontend.contacts.send');
 ```
