@@ -6,7 +6,7 @@
     @if(request()->is('*/trash'))
         Lixeira de
     @endif
-    Formulários
+    {{ config('admix-postal.name') }}
 @endsection
 
 @section('actions')
@@ -14,7 +14,7 @@
         @include('agenciafmd/admix::partials.btn.back', ['url' => route('admix.postal.index')])
     @else
         @can('create', \Agenciafmd\Postal\Models\Postal::class)
-            @include('agenciafmd/admix::partials.btn.create', ['url' => route('admix.postal.create'), 'label' => 'Formulário'])
+            @include('agenciafmd/admix::partials.btn.create', ['url' => route('admix.postal.create'), 'label' => config('admix-postal.name')])
         @endcan
         @can('restore', \Agenciafmd\Postal\Models\Postal::class)
             @include('agenciafmd/admix::partials.btn.trash', ['url' => route('admix.postal.trash')])
