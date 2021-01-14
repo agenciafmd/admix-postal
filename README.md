@@ -9,19 +9,19 @@
 
 ## Instalação
 
-```
+```bash
 composer require agenciafmd/admix-postal:dev-master
 ```
 
 Execute a migração
 
-```
+```bash
 php artisan migrate
 ```
 
 Se precisar do seed, faça a publicação
 
-```
+```bash
 php artisan vendor:publish --tag=admix-postal:seeds
 ```
 
