@@ -14,7 +14,7 @@ class SendNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $tries = 5;
+    public int $tries = 3;
 
     public $data;
 
@@ -51,7 +51,7 @@ class SendNotification extends Notification implements ShouldQueue
     public function toLead($data)
     {
         Lead::create([
-            'source' => 'contato',
+            'source' => $data['source'],
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
