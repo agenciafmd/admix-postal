@@ -45,12 +45,19 @@ class SendMail extends Mailable
             $mail->replyTo(key($this->sendFrom), current($this->sendFrom));
         }
 
-        if ($this->postal->cc) {
-            $mail->cc($this->postal->cc);
+
+        if ($cc = $this->postal->cc) {
+            $ccs = explode(',', $cc);
+            foreach($ccs as $cc) {
+                $mail->cc($cc);
+            }
         }
 
-        if ($this->postal->bcc) {
-            $mail->bcc($this->postal->bcc);
+        if ($bcc = $this->postal->bcc) {
+            $bccs = explode(',', $bcc);
+            foreach($bccs as $bcc) {
+                $mail->bcc($bcc);
+            }
         }
 
         // TODO: refatorar para remover o else
