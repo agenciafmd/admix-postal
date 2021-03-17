@@ -3,6 +3,7 @@
 namespace Agenciafmd\Postal\Mails;
 
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Arr;
 
 class SendMail extends Mailable
 {
@@ -47,26 +48,21 @@ class SendMail extends Mailable
 
         if ($cc = $this->postal->cc) {
             $ccs = explode(',', $cc);
-            foreach($ccs as $cc) {
+            foreach ($ccs as $cc) {
                 $mail->cc($cc);
             }
         }
 
         if ($bcc = $this->postal->bcc) {
             $bccs = explode(',', $bcc);
-            foreach($bccs as $bcc) {
+            foreach ($bccs as $bcc) {
                 $mail->bcc($bcc);
             }
         }
 
-        // TODO: refatorar para remover o else
         if ($this->attach) {
-            if (is_array($this->attach)) {
-                foreach ($this->attach as $attach) {
-                    $mail->attach($attach);
-                }
-            } else {
-                $mail->attach($this->attach);
+            foreach (Arr::wrap($this->attach) as $attach) {
+                $mail->attach($attach);
             }
         }
 
