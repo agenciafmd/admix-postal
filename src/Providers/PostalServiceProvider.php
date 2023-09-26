@@ -51,7 +51,7 @@ class PostalServiceProvider extends ServiceProvider
 
 //        $this->publishes([
 //            __DIR__ . '/../../public' => public_path('vendor/admix'),
-//        ], ['admix-assets', 'laravel-assets']);
+//        ], ['admix:assets', 'laravel-assets']);
     }
 
     private function setObservers(): void
