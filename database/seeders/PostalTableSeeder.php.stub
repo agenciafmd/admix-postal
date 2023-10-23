@@ -4,10 +4,11 @@ namespace Database\Seeders;
 
 use Agenciafmd\Postal\Models\Postal;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 
 class PostalTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         Postal::query()
             ->truncate();
@@ -28,7 +29,7 @@ class PostalTableSeeder extends Seeder
             ->progressFinish();
     }
 
-    private function items()
+    private function items(): Collection
     {
         return collect([
             [
