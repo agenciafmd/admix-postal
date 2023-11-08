@@ -9,8 +9,11 @@ class PostalObserver
 {
     public function saving(Postal $postal): void
     {
-        $postal->slug = Str::of($postal->name)
+        $slug = Str::of($postal->name)
             ->trim()
             ->slug();
+        $count = $postal->whereRaw("slug RLIKE '^{$slug}(-[0-9]+)?$'")
+            ->count();
+        $postal->slug = $count ? "{$slug}-{$count}" : $slug;
     }
 }
