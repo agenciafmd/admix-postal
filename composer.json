@@ -16,7 +16,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Agenciafmd\\Postal\\": "src/"
+            "Agenciafmd\\Postal\\": "src/",
+            "Agenciafmd\\Postal\\Database\\Factories\\": "database/factories/",
+            "Agenciafmd\\Postal\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "extra": {

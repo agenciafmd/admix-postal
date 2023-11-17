@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Agenciafmd\Postal\Database\Seeders;
 
 use Agenciafmd\Postal\Models\Postal;
 use Illuminate\Database\Seeder;
@@ -19,7 +19,8 @@ class PostalTableSeeder extends Seeder
             ->progressStart($items->count());
 
         $items->each(function ($item) {
-            Postal::create($item);
+            Postal::query()
+                ->create($item);
 
             $this->command->getOutput()
                 ->progressAdvance();

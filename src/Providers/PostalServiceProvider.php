@@ -42,7 +42,7 @@ class PostalServiceProvider extends ServiceProvider
         ], 'admix-postal:config');
 
         $this->publishes([
-            __DIR__ . '/../../database/seeders/PostalTableSeeder.php.stub' => base_path('database/seeders/PostalTableSeeder.php'),
+            __DIR__ . '/../../database/seeders/PostalTableSeeder.php' => base_path('database/seeders/PostalTableSeeder.php'),
         ], 'admix-postal:seeders');
 
         $this->publishes([
