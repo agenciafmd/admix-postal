@@ -2,7 +2,8 @@
 
 namespace Agenciafmd\Postal\Notifications;
 
-//use Agenciafmd\Leads\Channels\LeadChannel;
+use Agenciafmd\Leads\Channels\LeadChannel;
+use Agenciafmd\Leads\Models\Lead;
 use Agenciafmd\Postal\Models\Postal;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,8 +11,6 @@ use Illuminate\Notifications\Channels\MailChannel;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Symfony\Component\Mime\Email;
-
-//use Agenciafmd\Leads\Models\Lead;
 
 class SendNotification extends Notification implements ShouldQueue
 {
@@ -30,9 +29,13 @@ class SendNotification extends Notification implements ShouldQueue
 
     public function via(Postal $notifiable): array
     {
+        $leadChannel = class_exists(LeadChannel::class) ? [
+            LeadChannel::class,
+        ] : [];
+
         return [
             MailChannel::class,
-//            LeadChannel::class,
+            ...$leadChannel,
         ];
     }
 
@@ -92,7 +95,7 @@ class SendNotification extends Notification implements ShouldQueue
             $mail->attach($attach);
         }
 
-        $mail->withSymfonyMessage(function (Email $message) {
+        $mail->withSymfonyMessage(static function (Email $message) {
             $message->getHeaders()
                 ->addTextHeader(
                     'X-Mailgun-Tag', config('app.name')
@@ -102,14 +105,15 @@ class SendNotification extends Notification implements ShouldQueue
         return $mail;
     }
 
-//    public function toLead($data)
-//    {
-//        Lead::create([
-//            'source' => $data['source'],
-//            'name' => $data['name'],
-//            'email' => $data['email'],
-//            'phone' => $data['phone'],
-//            'description' => $data['message'],
-//        ]);
-//    }
+    public function toLead(array $data): void
+    {
+        Lead::query()
+            ->create([
+                'source' => $data['source'],
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'description' => $data['message'],
+            ]);
+    }
 }

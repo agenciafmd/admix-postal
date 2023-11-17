@@ -34,8 +34,8 @@ class Index extends BaseIndex
     {
         $this->setAdditionalFilters([
             TextFilter::make(__('admix-postal::fields.to'), 'email')
-                ->filter(function (Builder $builder, string $value) {
-                    $builder->where("postal.to", 'LIKE', "%{$value}%");
+                ->filter(static function (Builder $builder, string $value) {
+                    $builder->where('postal.to', 'LIKE', "%{$value}%");
                 }),
         ]);
 
@@ -46,12 +46,12 @@ class Index extends BaseIndex
     {
         $this->setAdditionalActionButtons([
             EmitColumn::make('')
-                ->title(fn($row) => __('Send'))
-                ->location(fn($row) => "window.livewire.emitTo('" . Str::of(self::class)
+                ->title(static fn($row) => __('Send'))
+                ->location(static fn($row) => "window.livewire.emitTo('" . Str::of(self::class)
                         ->lower()
                         ->replace('\\', '.')
-                        ->toString() . "', 'send', $row->id)")
-                ->attributes(function ($row) {
+                        ->toString() . "', 'send', {$row->id})")
+                ->attributes(static function ($row) {
                     return [
                         'class' => 'btn ms-0 ms-md-2',
                     ];
@@ -75,9 +75,9 @@ class Index extends BaseIndex
                     'greeting' => __('Hi :name!', ['name' => $postal->to_name]),
                     'introLines' => [
                         __('This is the test email sent by the website.'),
-                        "**" . ucfirst(__('admix-postal::fields.name')) . ":** {$postal->name}",
-                        "**" . ucfirst(__('admix-postal::fields.subject')) . ":** {$postal->subject}",
-                        "**" . ucfirst(__('admix-postal::fields.to_name')) . ":** {$postal->to_name} ({$postal->to})",
+                        '**' . ucfirst(__('admix-postal::fields.name')) . ":** {$postal->name}",
+                        '**' . ucfirst(__('admix-postal::fields.subject')) . ":** {$postal->subject}",
+                        '**' . ucfirst(__('admix-postal::fields.to_name')) . ":** {$postal->to_name} ({$postal->to})",
                         '**' . ucfirst(__('admix-postal::fields.cc')) . ':** ' . (($postal->cc) ?? 'Nenhuma'),
                         '**' . ucfirst(__('admix-postal::fields.bcc')) . ':** ' . (($postal->bcc) ?? 'Nenhuma'),
                     ],
