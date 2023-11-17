@@ -2,7 +2,7 @@
 
 namespace Agenciafmd\Postal\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use Agenciafmd\Admix\Traits\WithScopes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,7 +14,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class Postal extends Model implements AuditableContract
 {
-    use SoftDeletes, Auditable, Notifiable;
+    use SoftDeletes, Auditable, Notifiable, WithScopes;
 
     protected $table = 'postal';
 
@@ -43,11 +43,6 @@ class Postal extends Model implements AuditableContract
     public function routeNotificationForMail(Notification $notification): array|string
     {
         return [$this->to => $this->to_name];
-    }
-
-    public function scopeIsActive(Builder $query): void
-    {
-        $query->where('is_active', 1);
     }
 
     private function normalizeCopies(?string $value): ?string
