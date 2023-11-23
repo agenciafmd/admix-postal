@@ -14,9 +14,13 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 class Index extends BaseIndex
 {
     protected $model = Postal::class;
+
     protected string $indexRoute = 'admix.postal.index';
+
     protected string $trashRoute = 'admix.postal.trash';
+
     protected string $creteRoute = 'admix.postal.create';
+
     protected string $editRoute = 'admix.postal.edit';
 
     public function configure(): void
@@ -32,10 +36,14 @@ class Index extends BaseIndex
 
     public function filters(): array
     {
+        $strongTableFromBuilder = $this->builder()
+            ->getModel()
+            ->getTable();
+
         $this->setAdditionalFilters([
             TextFilter::make(__('admix-postal::fields.to'), 'email')
-                ->filter(static function (Builder $builder, string $value) {
-                    $builder->where('postal.to', 'LIKE', "%{$value}%");
+                ->filter(static function (Builder $builder, string $value) use ($strongTableFromBuilder) {
+                    $builder->where("{$strongTableFromBuilder}.to", 'LIKE', "%{$value}%");
                 }),
         ]);
 
@@ -47,7 +55,7 @@ class Index extends BaseIndex
         $this->setAdditionalActionButtons([
             EmitColumn::make('')
                 ->title(static fn($row) => __('Send'))
-                ->location(static fn($row) => "window.livewire.emitTo('" . Str::of(self::class)
+                ->location(static fn ($row) => "window.livewire.emitTo('" . Str::of(static::class)
                         ->lower()
                         ->replace('\\', '.')
                         ->toString() . "', 'send', {$row->id})")

@@ -10,6 +10,8 @@ return new class extends Migration {
         Schema::create('postal', static function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('is_active')
+                ->unsigned()
+                ->index()
                 ->default(1);
             $table->string('name');
             $table->string('to');

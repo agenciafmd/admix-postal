@@ -14,44 +14,44 @@ class Form extends Component
 {
     use AuthorizesRequests;
 
-    public Postal $postal;
+    public Postal $model;
 
     public function mount(Postal $postal): void
     {
         ($postal->id) ? $this->authorize('update', Postal::class) : $this->authorize('create', Postal::class);
 
-        $this->postal = $postal;
-        $this->postal->is_active ??= false;
+        $this->model = $postal;
+        $this->model->is_active ??= false;
     }
 
     public function rules(): array
     {
         return [
-            'postal.is_active' => [
+            'model.is_active' => [
                 'boolean',
             ],
-            'postal.name' => [
+            'model.name' => [
                 'required',
                 'max:255',
             ],
-            'postal.subject' => [
+            'model.subject' => [
                 'required',
                 'max:255',
             ],
-            'postal.to_name' => [
+            'model.to_name' => [
                 'required',
                 'max:255',
             ],
-            'postal.to' => [
+            'model.to' => [
                 'required',
                 'email:rfc,dns',
             ],
-            'postal.cc' => [
+            'model.cc' => [
                 'nullable',
                 new CommaSeparatedEmails(),
                 'max:255',
             ],
-            'postal.bcc' => [
+            'model.bcc' => [
                 'nullable',
                 new CommaSeparatedEmails(),
                 'max:255',
@@ -72,17 +72,12 @@ class Form extends Component
         ];
     }
 
-    public function updated(string $field): void
-    {
-        $this->validateOnly($field, $this->rules(), [], $this->attributes());
-    }
-
     public function submit(): null|RedirectResponse|Redirector
     {
         $this->validate($this->rules(), [], $this->attributes());
 
         try {
-            if ($this->postal->save()) {
+            if ($this->model->save()) {
                 flash(__('crud.success.save'), 'success');
             } else {
                 flash(__('crud.error.save'), 'error');
@@ -97,6 +92,11 @@ class Form extends Component
 
             return null;
         }
+    }
+
+    public function updated(string $field): void
+    {
+        $this->validateOnly($field, $this->rules(), [], $this->attributes());
     }
 
     public function render(): View
