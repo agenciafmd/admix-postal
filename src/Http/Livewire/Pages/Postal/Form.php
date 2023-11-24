@@ -7,6 +7,7 @@ use Agenciafmd\Support\Rules\CommaSeparatedEmails;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\Redirector;
 
@@ -59,6 +60,14 @@ class Form extends Component
         ];
     }
 
+    public function prepareForValidation($attributes): array
+    {
+        $attributes['model']['cc'] = $this->normalizeCopies($attributes['model']['cc']);
+        $attributes['model']['bcc'] = $this->normalizeCopies($attributes['model']['bcc']);
+
+        return $attributes;
+    }
+
     public function attributes(): array
     {
         return [
@@ -104,5 +113,20 @@ class Form extends Component
         return view('admix-postal::pages.postal.form')
             ->extends('admix::internal')
             ->section('internal-content');
+    }
+
+    private function normalizeCopies(?string $value): ?string
+    {
+        if (!$value) {
+            return null;
+        }
+
+        return Str::of($value)
+            ->squish()
+            ->replace(' ', '')
+            ->replace(';', ',')
+            ->explode(',')
+            ->map(fn ($value) => trim($value))
+            ->implode(',');
     }
 }
