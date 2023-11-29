@@ -3,6 +3,7 @@
 namespace Agenciafmd\Postal\Models;
 
 use Agenciafmd\Admix\Traits\WithScopes;
+use Agenciafmd\Admix\Traits\WithSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +13,7 @@ use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 class Postal extends Model implements AuditableContract
 {
-    use Auditable, Notifiable, SoftDeletes, WithScopes;
+    use Auditable, Notifiable, SoftDeletes, WithScopes, WithSlug;
 
     protected $table = 'postal';
 
