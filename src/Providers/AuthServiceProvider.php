@@ -2,8 +2,8 @@
 
 namespace Agenciafmd\Postal\Providers;
 
-use Agenciafmd\Postal\Policies\PostalPolicy;
 use Agenciafmd\Postal\Models\Postal;
+use Agenciafmd\Postal\Policies\PostalPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider

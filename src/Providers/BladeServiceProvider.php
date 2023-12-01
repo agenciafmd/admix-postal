@@ -2,7 +2,6 @@
 
 namespace Agenciafmd\Postal\Providers;
 
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -46,7 +45,7 @@ class BladeServiceProvider extends ServiceProvider
     private function setMenu(): void
     {
         $this->app->make('admix-menu')
-            ->push((object)[
+            ->push((object) [
                 'component' => 'admix-postal::aside.postal',
                 'ord' => config('admix-postal.sort'),
             ]);

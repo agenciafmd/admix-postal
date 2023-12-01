@@ -54,7 +54,7 @@ class Index extends BaseIndex
     {
         $this->setAdditionalActionButtons([
             EmitColumn::make('')
-                ->title(static fn($row) => __('Send'))
+                ->title(static fn ($row) => __('Send'))
                 ->location(static fn ($row) => "window.livewire.emitTo('" . Str::of(static::class)
                         ->lower()
                         ->replace('\\', '.')

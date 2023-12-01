@@ -23,7 +23,8 @@ class SendNotification extends Notification implements ShouldQueue
         public array $from = [],
         public array $attach = [],
         public ?string $subject = null,
-    ) {
+    )
+    {
         //
     }
 

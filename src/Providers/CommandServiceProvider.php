@@ -2,9 +2,6 @@
 
 namespace Agenciafmd\Postal\Providers;
 
-use Agenciafmd\Admix\Commands\AdmixUser;
-use Agenciafmd\Admix\Commands\InstallCommand;
-use Agenciafmd\Admix\Commands\NotificationsClear;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
@@ -21,7 +18,7 @@ class CommandServiceProvider extends ServiceProvider
         }
 
         $minutes = Cache::rememberForever('schedule-minutes', static function () {
-            return Str::of((string)random_int(0, 59))
+            return Str::of((string) random_int(0, 59))
                 ->padLeft(2, '0')
                 ->toString();
         });
