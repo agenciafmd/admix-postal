@@ -23,7 +23,7 @@ class CommandServiceProvider extends ServiceProvider
                 ->toString();
         });
 
-        $this->app->booted(function () use ($minutes) {
+        $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
         });
     }
