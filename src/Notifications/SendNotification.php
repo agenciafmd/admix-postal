@@ -23,11 +23,10 @@ class SendNotification extends Notification implements ShouldQueue
         public array $from = [],
         public array $attach = [],
         public ?string $subject = null,
-    )
-    {
-        //
+    ) {
     }
 
+    /* TODO: verificar se conseguimos criar um evento customizado a fim de disparar o leadChannel lá no pacote de leads */
     public function via(Postal $notifiable): array
     {
         $leadChannel = class_exists(LeadChannel::class) ? [

@@ -1,13 +1,12 @@
 <?php
 
-namespace Agenciafmd\Postal\Http\Livewire\Pages\Postal;
+namespace Agenciafmd\Postal\Livewire\Pages\Postal;
 
-use Agenciafmd\Admix\Http\Livewire\Pages\Base\Index as BaseIndex;
-use Agenciafmd\Components\LaravelLivewireTables\Columns\EmitColumn;
+use Agenciafmd\Admix\Livewire\Pages\Base\Index as BaseIndex;
 use Agenciafmd\Postal\Models\Postal;
 use Agenciafmd\Postal\Notifications\SendNotification;
+use Agenciafmd\Ui\LaravelLivewireTables\Columns\EmitColumn;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filters\TextFilter;
 
@@ -54,11 +53,11 @@ class Index extends BaseIndex
     {
         $this->setAdditionalActionButtons([
             EmitColumn::make('')
-                ->title(static fn ($row) => __('Send'))
-                ->location(static fn ($row) => "window.livewire.emitTo('" . Str::of(static::class)
+                ->title(static fn($row) => __('Send'))
+                ->location(static fn($row) => "window.Livewire.dispatchTo('" . str(static::class)
                         ->lower()
                         ->replace('\\', '.')
-                        ->toString() . "', 'send', {$row->id})")
+                        ->toString() . "', 'send', { postal: {$row->id} })")
                 ->attributes(static function ($row) {
                     return [
                         'class' => 'btn ms-0 ms-md-2',
@@ -97,15 +96,9 @@ class Index extends BaseIndex
                 ],
             ));
 
-            $this->emit('toast', [
-                'level' => 'success',
-                'message' => __('Test send successfully.'),
-            ]);
-        } catch (\Exception $e) {
-            $this->emit('toast', [
-                'level' => 'danger',
-                'message' => $e->getMessage(),
-            ]);
+            $this->dispatch(event: 'toast', level: 'success', message: __('Test send successfully.'));
+        } catch (\Exception $exception) {
+            $this->dispatch(event: 'toast', level: 'danger', message: $exception->getMessage());
         }
     }
 }

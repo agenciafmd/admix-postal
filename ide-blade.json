@@ -2,7 +2,7 @@
     "namespaces": [
         {
             "namespace": "admix-postal",
-            "path": "src/resources/views"
+            "path": "resources/views"
         }
     ]
 }
