@@ -35,14 +35,10 @@ class Index extends BaseIndex
 
     public function filters(): array
     {
-        $strongTableFromBuilder = $this->builder()
-            ->getModel()
-            ->getTable();
-
         $this->setAdditionalFilters([
             TextFilter::make(__('admix-postal::fields.to'), 'email')
-                ->filter(static function (Builder $builder, string $value) use ($strongTableFromBuilder) {
-                    $builder->where("{$strongTableFromBuilder}.to", 'LIKE', "%{$value}%");
+                ->filter(static function (Builder $builder, string $value) {
+                    $builder->where($builder->qualifyColumn('to'), 'like', "%{$value}%");
                 }),
         ]);
 
