@@ -2,6 +2,7 @@
 
 namespace Agenciafmd\Postal\Providers;
 
+use Agenciafmd\Postal\Models\Postal;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
@@ -23,8 +24,15 @@ class CommandServiceProvider extends ServiceProvider
                 ->toString();
         });
 
-        $this->app->booted(function () {
+        $this->app->booted(function () use ($minutes) {
             $schedule = $this->app->make(Schedule::class);
+
+            $schedule->command('model:prune', [
+                '--model' => [
+                    Postal::class,
+                ],
+            ])
+                ->dailyAt("03:{$minutes}");
         });
     }
 }
