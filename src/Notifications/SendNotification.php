@@ -23,8 +23,7 @@ class SendNotification extends Notification implements ShouldQueue
         public array $from = [],
         public array $attach = [],
         public ?string $subject = null,
-    ) {
-    }
+    ) {}
 
     /* TODO: verificar se conseguimos criar um evento customizado a fim de disparar o leadChannel lá no pacote de leads */
     public function via(Postal $notifiable): array
@@ -50,7 +49,7 @@ class SendNotification extends Notification implements ShouldQueue
             ],
         ], $this->data);
 
-        $mail = (new MailMessage())
+        $mail = (new MailMessage)
             ->markdown('admix-mail::markdown.email')
             ->theme('admix-mail::theme.tabler')
             ->level('default')

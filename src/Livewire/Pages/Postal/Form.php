@@ -70,12 +70,12 @@ class Form extends LivewireForm
             ],
             'cc' => [
                 'nullable',
-                new CommaSeparatedEmails(),
+                new CommaSeparatedEmails,
                 'max:255',
             ],
             'bcc' => [
                 'nullable',
-                new CommaSeparatedEmails(),
+                new CommaSeparatedEmails,
                 'max:255',
             ],
         ];
@@ -121,7 +121,7 @@ class Form extends LivewireForm
             ->replace(' ', '')
             ->replace(';', ',')
             ->explode(',')
-            ->map(fn($value) => trim($value))
+            ->map(fn ($value) => trim($value))
             ->implode(',');
     }
 }

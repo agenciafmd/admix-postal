@@ -49,11 +49,11 @@ class Index extends BaseIndex
     {
         $this->setAdditionalActionButtons([
             EmitColumn::make('')
-                ->title(static fn($row) => __('Send'))
-                ->location(static fn($row) => "window.Livewire.dispatchTo('" . str(static::class)
-                        ->lower()
-                        ->replace('\\', '.')
-                        ->toString() . "', 'send', { postal: {$row->id} })")
+                ->title(static fn ($row) => __('Send'))
+                ->location(static fn ($row) => "window.Livewire.dispatchTo('" . str(static::class)
+                    ->lower()
+                    ->replace('\\', '.')
+                    ->toString() . "', 'send', { postal: {$row->id} })")
                 ->attributes(static function ($row) {
                     return [
                         'class' => 'btn ms-0 ms-md-2',
