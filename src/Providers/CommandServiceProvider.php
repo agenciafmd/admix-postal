@@ -4,35 +4,29 @@ namespace Agenciafmd\Postal\Providers;
 
 use Agenciafmd\Postal\Models\Postal;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 
 class CommandServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                //
-            ]);
+        if (!$this->app->runningInConsole()) {
+            return;
         }
 
-        $minutes = Cache::rememberForever('schedule-minutes', static function () {
-            return Str::of((string) random_int(0, 59))
-                ->padLeft(2, '0')
-                ->toString();
-        });
+        $this->commands([
+            //
+        ]);
 
-        $this->app->booted(function () use ($minutes) {
+        $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
+            $minutes = config('admix.schedule.minutes');
 
             $schedule->command('model:prune', [
                 '--model' => [
                     Postal::class,
                 ],
-            ])
-                ->dailyAt("03:{$minutes}");
+            ])->dailyAt("03:{$minutes}");
         });
     }
 }
