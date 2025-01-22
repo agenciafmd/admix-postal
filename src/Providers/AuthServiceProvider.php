@@ -2,8 +2,8 @@
 
 namespace Agenciafmd\Postal\Providers;
 
-use Agenciafmd\Postal\Policies\PostalPolicy;
 use Agenciafmd\Postal\Models\Postal;
+use Agenciafmd\Postal\Policies\PostalPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -12,8 +12,18 @@ class AuthServiceProvider extends ServiceProvider
         Postal::class => PostalPolicy::class,
     ];
 
-    public function boot()
+    public function boot(): void
     {
         $this->registerPolicies();
+    }
+
+    public function register(): void
+    {
+        $this->loadConfigs();
+    }
+
+    public function loadConfigs(): void
+    {
+        $this->mergeConfigFrom(__DIR__ . '/../../config/gate.php', 'gate');
     }
 }

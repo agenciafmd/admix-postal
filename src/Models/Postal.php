@@ -2,18 +2,20 @@
 
 namespace Agenciafmd\Postal\Models;
 
+use Agenciafmd\Admix\Traits\WithScopes;
+use Agenciafmd\Admix\Traits\WithSlug;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
+use Illuminate\Notifications\Notification;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
-use Spatie\Searchable\Searchable;
-use Spatie\Searchable\SearchResult;
 
-class Postal extends Model implements AuditableContract, Searchable
+class Postal extends Model implements AuditableContract
 {
-    use SoftDeletes, Auditable, Notifiable;
+    use Auditable, Notifiable, Prunable, SoftDeletes, WithScopes, WithSlug;
 
     protected $table = 'postal';
 
@@ -25,47 +27,13 @@ class Postal extends Model implements AuditableContract, Searchable
         'is_active' => 'boolean',
     ];
 
-    protected static function boot()
+    public function prunable(): Builder
     {
-        parent::boot();
-
-        static::saving(function ($model) {
-            $model->slug = Str::slug($model->name);
-        });
+        return self::where('deleted_at', '<=', now()->subYear());
     }
 
-    public $searchableType = "Formulários";
-
-    public function getSearchResult(): SearchResult
+    public function routeNotificationForMail(Notification $notification): array|string
     {
-        return new SearchResult(
-            $this,
-            "{$this->name} ({$this->to})",
-            route('admix.postal.edit', $this->id)
-        );
-    }
-
-    public function setCcAttribute($value)
-    {
-        $this->attributes['cc'] = $this->normalizeCopies($value);
-    }
-
-    public function setBccAttribute($value)
-    {
-        $this->attributes['bcc'] = $this->normalizeCopies($value);
-    }
-
-    public function scopeIsActive($query)
-    {
-        $query->where('is_active', 1);
-    }
-
-    private function normalizeCopies($value)
-    {
-        if(!$value) {
-            return null;
-        }
-        
-        return str_replace([' ', ','], ['', ','], $value);
+        return [$this->to => $this->to_name];
     }
 }

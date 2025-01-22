@@ -1,36 +1,31 @@
 {
-  "name": "agenciafmd/admix-postal",
-  "description": "Postal - Agência F&MD",
-  "homepage": "https://github.com/agenciafmd/admix-postal",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Irineu Junior",
-      "email": "irineu@fmd.ag",
-      "homepage": "https://fmd.ag/",
-      "role": "Developer"
-    }
-  ],
-  "require": {
-    "laravel/framework": "^8.0",
-    "msurguy/honeypot": "^1.0"
-  },
-  "autoload": {
-    "files": [
-      "src/Http/helpers.php"
+    "name": "agenciafmd/admix-postal",
+    "description": "Postal - Agência F&MD",
+    "homepage": "https://github.com/agenciafmd/admix-postal",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Irineu Junior",
+            "email": "irineu@fmd.ag",
+            "homepage": "https://fmd.ag/",
+            "role": "Developer"
+        }
     ],
-    "psr-4": {
-      "Agenciafmd\\Postal\\": "src/"
+    "require": {
+        "laravel/framework": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Agenciafmd\\Postal\\": "src/",
+            "Agenciafmd\\Postal\\Database\\Factories\\": "database/factories/",
+            "Agenciafmd\\Postal\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Agenciafmd\\Postal\\Providers\\PostalServiceProvider"
+            ]
+        }
     }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Agenciafmd\\Postal\\Providers\\PostalServiceProvider"
-      ],
-      "aliases": {
-        "Honeypot": "Msurguy\\Honeypot\\HoneypotFacade"
-      }
-    }
-  }
 }

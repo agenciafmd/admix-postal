@@ -2,35 +2,61 @@
 
 namespace Agenciafmd\Postal\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class BladeServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
-        $this->loadViews();
+        $this->loadBladeComponents();
 
-        $this->loadTranslations();
+        $this->loadBladeDirectives();
+
+        $this->loadBladeComposers();
+
+        $this->setMenu();
+
+        $this->loadViews();
 
         $this->publish();
     }
 
-    public function register()
+    public function register(): void
     {
         //
     }
 
-    protected function loadViews()
+    private function loadBladeComponents(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'agenciafmd/postal');
+        Blade::componentNamespace('Agenciafmd\\Postal\\Http\\Components', 'admix-postal');
     }
 
-    protected function loadTranslations()
+    private function loadBladeComposers(): void
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'agenciafmd/postal');
+        //
     }
 
-    protected function publish()
+    private function loadBladeDirectives(): void
+    {
+        //
+    }
+
+    private function setMenu(): void
+    {
+        $this->app->make('admix-menu')
+            ->push((object) [
+                'component' => 'admix-postal::aside.postal',
+                'ord' => config('admix-postal.sort'),
+            ]);
+    }
+
+    private function loadViews(): void
+    {
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'admix-postal');
+    }
+
+    private function publish(): void
     {
         $this->publishes([
             __DIR__ . '/../resources/views' => base_path('resources/views/vendor/agenciafmd/postal'),
