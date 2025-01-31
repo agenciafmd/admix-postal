@@ -23,9 +23,12 @@ class Postal extends Model implements AuditableContract
         //
     ];
 
-    protected $casts = [
-        'is_active' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'is_active' => 'boolean',
+        ];
+    }
 
     public function prunable(): Builder
     {
