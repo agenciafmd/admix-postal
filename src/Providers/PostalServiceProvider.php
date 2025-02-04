@@ -2,8 +2,6 @@
 
 namespace Agenciafmd\Postal\Providers;
 
-use Agenciafmd\Postal\Models\Postal;
-use Agenciafmd\Postal\Observers\PostalObserver;
 use Illuminate\Support\ServiceProvider;
 
 class PostalServiceProvider extends ServiceProvider
@@ -11,8 +9,6 @@ class PostalServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->providers();
-
-        $this->setObservers();
 
         $this->loadMigrations();
 
@@ -52,11 +48,6 @@ class PostalServiceProvider extends ServiceProvider
         //        $this->publishes([
         //            __DIR__ . '/../../public' => public_path('vendor/admix'),
         //        ], ['admix:assets', 'laravel-assets']);
-    }
-
-    private function setObservers(): void
-    {
-        Postal::observe(PostalObserver::class);
     }
 
     private function loadMigrations(): void
