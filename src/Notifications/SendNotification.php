@@ -45,6 +45,8 @@ class SendNotification extends Notification implements ShouldQueue
             'introLines' => [
                 __('This email sent by the website through the :name form.', ['name' => $notifiable->name]),
             ],
+            'actionText' => null,
+            'actionUrl' => null,
             'outroLines' => [
             ],
         ], $this->data);
