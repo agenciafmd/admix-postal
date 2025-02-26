@@ -22,8 +22,9 @@ class Postal extends Model implements AuditableContract
 
     protected $table = 'postal';
 
-    protected $guarded = [
-        //
+    protected array $defaultSort = [
+        'is_active' => 'desc',
+        'name' => 'asc',
     ];
 
     protected function casts(): array
